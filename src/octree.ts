@@ -1,29 +1,10 @@
 import { getDataList, mainColorNumber, PixelData, rgb2Hex } from "./shared.ts";
+import * as fs from 'node:fs';
 
-/** 原始数据集, 保存了4个 ImgPixels 数组*/
-const dataList = await getDataList();
+const img_pair = await getDataList();
+const dataList = img_pair.dataList;
+const filenames = img_pair.filenames
 
-/********************/
-/*      octree      */
-/********************/
-
-/**
- * 0. 将每个点的 RGB 表示为二进制的一行, 堆叠后将每一列的不同编码对应成数字, 共 8 种组合
- *    RGB 通道逐列黏合之后的值就是其在某一层节点的子节点
- *    e.g. 如#FF7800，其中 R 通道为0xFF，也就是255，G 为 0x78 也就是120，B 为 0x00 也就是0。
- *         接下来我们把它们写成二进制逐行放下，那么就是：
- *          R: 1111 1111
- *          G: 0111 1000
- *          B: 0000 0000
- *         上述颜色的第一位黏合起来是100(2)，转化为十进制就是 4，所以这个颜色在第一层是放在根节点的第5个子节点当中
- *         第二位是 110(2) 也就是 6，那么它就是根节点的第5个儿子的第7个儿子
- * 1. 建立一棵空八叉树, 设置一个叶子节点个数上限
- * 2. 依次将像素按 0. 的算法插入树中
- *     (1) 若插入后叶子节点数小于上限, 则什么也不做
- *     (2) 若大于上限, 则对最底层的一个非叶子节点进行合并
- *         将其转换为叶子节点 rgb 值的平均数, 并清除其子节点
- * 3. 依此类推, 直到最后插入所有的像素, 所得八叉树的叶子节点即为主色调
- */
 
 class Node {
   static leafNum = 0;
@@ -106,17 +87,18 @@ function reduceTree() {
 
 function colorsStats(node: Node, record: Record<string, number>) {
   if (node.isLeaf) {
-    const r = (~~(node.r / node.childrenCount))
-      .toString(16)
-      .padStart(2, "0");
-    const g = (~~(node.g / node.childrenCount))
-      .toString(16)
-      .padStart(2, "0");
-    const b = (~~(node.b / node.childrenCount))
-      .toString(16)
-      .padStart(2, "0");
+    const r = (~~(node.r / node.childrenCount));
+      // .toString(16)
+      // .padStart(2, "0");
+    const g = (~~(node.g / node.childrenCount));
+      // .toString(16)
+      // .padStart(2, "0");
+    const b = (~~(node.b / node.childrenCount));
+      // .toString(16)
+      // .padStart(2, "0");
 
-    const color = "#" + r + g + b;
+    // const color = "#" + r + g + b;
+    const color = `[${r}, ${g}, ${b}]`;
     if (record[color]) record[color] += node.childrenCount;
     else record[color] = node.childrenCount;
 
@@ -131,7 +113,9 @@ function colorsStats(node: Node, record: Record<string, number>) {
 }
 
 dataList.forEach((data, index) => {
-  console.log(`\n*** processing img ${index + 1} ***\n`);
+  const imgName = filenames[index];
+
+  console.log(`\n*** processing img ` + imgName + `***\n`);
   const root = new Node();
 
   Node.toReduce = new Array(8).fill(0).map(() => []);
@@ -147,25 +131,25 @@ dataList.forEach((data, index) => {
   colorsStats(root, record);
   const result = Object.entries(record)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 4);
+    .slice(0, mainColorNumber); // 只取 7 個顏色
 
-  console.log(result.map(([color, _]) => color));
+  // output 到 terminal
+  // console.log(`img_name = '${imgName}';`);
+  // result.forEach((color, i) => {
+  //   console.log(`manual_color_${i} = ${color[0]};`);
+  // });
 
-  /* 
-    *** processing img 1 ***
+  //output 到 txt
+  const outputFile = `output_${imgName}.txt`;
+  const output = [
+    `img_name = '${imgName}';`,
+    ...result.map((color, i) => `manual_color_${i} = ${color[0]};`),
+  ].join('\n');
 
-    [ "#0c0e1e", "#bab2a6", "#5a5e65", "#263448" ]
+  fs.writeFileSync(outputFile, output);
+  console.log(`Output written to ${outputFile}`);
 
-    *** processing img 2 ***
-
-    [ "#4c4148", "#75b2b1", "#d2d2d1", "#a2a1a2" ]
-
-    *** processing img 3 ***
-
-    [ "#393144", "#d5bba7", "#9b5c69", "#d29370" ]
-
-    *** processing img 4 ***
-
-    [ "#4e1c2f", "#a11227", "#c21b2a", "#c95e28" ]
-  */
 });
+
+
+//img_name = 'Kim_Jisoo.jpg'; manual_color_0 = [176, 202, 211]; manual_color_1 = [87, 52, 42]; manual_color_2 = [27, 23, 23]; manual_color_3 = [114, 145, 145]; manual_color_4 = [210, 164, 149]; manual_color_5 = [172, 114, 88]; manual_color_6 = [229, 214, 205]; 

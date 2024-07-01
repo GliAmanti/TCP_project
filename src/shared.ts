@@ -3,18 +3,35 @@ export type PixelData = [number, number, number];
 /** 一张图片的信息由若干像素点构成 */
 export type ImgPixels = PixelData[];
 
-export async function getDataList(): Promise<ImgPixels[]> {
+// export async function getDataList(): Promise<ImgPixels[]> {
+//   const dataList: ImgPixels[] = [];
+//   for await (const file of Deno.readDir('../imgs/test')){
+//     if (file.isFile && file.name.endsWith('.json')) {
+//       const json = await Deno.readTextFile(`../imgs/test/${file.name}`);
+//       const data = JSON.parse(json) as ImgPixels;
+//       dataList.push(data);
+//     }
+//   }
+
+//   return dataList;
+// }
+
+export async function getDataList(): Promise<{ filenames: string[]; dataList: ImgPixels[] }> {
+  const filenames: string[] = [];
   const dataList: ImgPixels[] = [];
-  for (let i = 0; i < 4; i++) {
-    const json = await Deno.readTextFile(`../imgs/test/imgData${i + 1}.json`);
-    const data = JSON.parse(json) as ImgPixels;
-    dataList.push(data);
+  for await (const file of Deno.readDir('../imgs/test')){
+    if (file.isFile && file.name.endsWith('.json')) {
+      const json = await Deno.readTextFile(`../imgs/test/${file.name}`);
+      const data = JSON.parse(json) as ImgPixels;
+      filenames.push(file.name.split('.').shift());
+      dataList.push(data);
+    }
   }
 
-  return dataList;
+  return { filenames, dataList };
 }
 
-export const mainColorNumber = 4;
+export const mainColorNumber = 7;
 
 export function rgb2Hex(pixel: PixelData): string {
   return pixel.reduce((prevStr, channel) => {
