@@ -23,7 +23,7 @@ export async function getDataList(): Promise<{ filenames: string[]; dataList: Im
     if (file.isFile && file.name.endsWith('.json')) {
       const json = await Deno.readTextFile(`../imgs/test/${file.name}`);
       const data = JSON.parse(json) as ImgPixels;
-      filenames.push(file.name.split('.').shift());
+      filenames.push(file.name.split('.')[0]);
       dataList.push(data);
     }
   }

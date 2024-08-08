@@ -112,6 +112,7 @@ function colorsStats(node: Node, record: Record<string, number>) {
   }
 }
 
+const t0 = performance.now();
 dataList.forEach((data, index) => {
   const imgName = filenames[index];
 
@@ -140,16 +141,17 @@ dataList.forEach((data, index) => {
   // });
 
   //output 到 txt
-  const outputFile = `output_${imgName}.txt`;
+  const outputFile = `../output/${imgName}.txt`;
   const output = [
-    `img_name = '${imgName}';`,
-    ...result.map((color, i) => `manual_color_${i} = ${color[0]};`),
-  ].join('\n');
+                    `img_name = '${imgName}.png';`,
+                    ...result.map((color, i) => `manual_color_${i} = ${color[0]};`),
+                  ].join(' ');
 
   fs.writeFileSync(outputFile, output);
   console.log(`Output written to ${outputFile}`);
 
 });
-
+const t1 = performance.now();
+console.log(`Call to doSomething took ${(t1 - t0)/1000} seconds.`);
 
 //img_name = 'Kim_Jisoo.jpg'; manual_color_0 = [176, 202, 211]; manual_color_1 = [87, 52, 42]; manual_color_2 = [27, 23, 23]; manual_color_3 = [114, 145, 145]; manual_color_4 = [210, 164, 149]; manual_color_5 = [172, 114, 88]; manual_color_6 = [229, 214, 205]; 
