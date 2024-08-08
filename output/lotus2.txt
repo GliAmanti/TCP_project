@@ -1,0 +1,1 @@
+img_name = 'lotus2'; manual_color_0 = [251, 250, 250]; manual_color_1 = [157, 169, 154]; manual_color_2 = [62, 69, 61]; manual_color_3 = [244, 159, 161]; manual_color_4 = [114, 150, 103]; manual_color_5 = [222, 75, 90]; manual_color_6 = [142, 171, 114];

@@ -1,0 +1,1 @@
+img_name = 'crab'; manual_color_0 = [252, 252, 253]; manual_color_1 = [159, 159, 166]; manual_color_2 = [205, 206, 210]; manual_color_3 = [91, 91, 105]; manual_color_4 = [50, 43, 75]; manual_color_5 = [187, 188, 194]; manual_color_6 = [120, 121, 132];

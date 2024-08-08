@@ -1,0 +1,1 @@
+img_name = 'pandas'; manual_color_0 = [253, 253, 253]; manual_color_1 = [34, 27, 255]; manual_color_2 = [255, 31, 33]; manual_color_3 = [30, 33, 26]; manual_color_4 = [25, 253, 27]; manual_color_5 = [254, 160, 161]; manual_color_6 = [164, 159, 255];

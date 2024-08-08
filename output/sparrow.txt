@@ -1,0 +1,1 @@
+img_name = 'sparrow'; manual_color_0 = [250, 250, 251]; manual_color_1 = [154, 160, 169]; manual_color_2 = [73, 73, 89]; manual_color_3 = [213, 87, 191]; manual_color_4 = [230, 159, 223]; manual_color_5 = [182, 202, 202]; manual_color_6 = [111, 114, 138];
