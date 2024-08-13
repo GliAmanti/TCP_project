@@ -1,1 +1,0 @@
-img_name = 'rooster'; manual_color_0 = [249, 239, 233]; manual_color_1 = [61, 59, 59]; manual_color_2 = [164, 74, 77]; manual_color_3 = [155, 155, 152]; manual_color_4 = [180, 139, 112]; manual_color_5 = [219, 165, 151]; manual_color_6 = [100, 119, 132];

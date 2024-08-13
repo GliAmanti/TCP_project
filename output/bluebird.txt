@@ -1,1 +1,0 @@
-img_name = 'bluebird'; manual_color_0 = [254, 254, 254]; manual_color_1 = [148, 157, 173]; manual_color_2 = [157, 176, 204]; manual_color_3 = [87, 85, 88]; manual_color_4 = [246, 210, 167]; manual_color_5 = [110, 138, 174]; manual_color_6 = [181, 199, 221];
