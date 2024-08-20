@@ -2,7 +2,7 @@ import bpy
 import os
 import math
 
-base_path = '/home/gliamanti/下載/squirrel_new/' ### image name
+base_path = '/home/gliamanti/下載/blender_input/squirrel_sean/' ### image name
 layer_dir = base_path + 'layer/'
 alpha_dir = base_path + 'alpha/'
 background_dir = base_path + 'background/'
